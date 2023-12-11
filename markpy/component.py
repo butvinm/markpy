@@ -1,4 +1,4 @@
-from typing import Any, Generic, Self, Type, TypeVar
+from typing import Any, Generic, Self, TypeVar
 
 ChildT = TypeVar('ChildT')
 
@@ -6,19 +6,9 @@ ChildT = TypeVar('ChildT')
 class Component(Generic[ChildT]):
     INDENT = '    '
 
-    children: tuple[ChildT]
+    children: tuple[ChildT, ...]
 
-    def __class_getitem__(
-        cls: Type[Self],
-        key: ChildT | tuple[ChildT],
-    ) -> Self:
-        if not isinstance(key, tuple):
-            key = (key, )
-
-        obj = cls()
-        return obj.__getitem__(key)
-
-    def __getitem__(self, key: ChildT | tuple[ChildT]) -> Self:
+    def __getitem__(self, key: ChildT | tuple[ChildT, ...]) -> Self:
         if not isinstance(key, tuple):
             key = (key, )
 
